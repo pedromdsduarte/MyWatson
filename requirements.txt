@@ -1,0 +1,11 @@
+numpy==1.14.2
+Keras==2.1.5
+webcolors==1.8.1
+Django==2.0.2
+nltk==3.2.5
+keras_vggface==0.5
+pycrypto==2.6.1
+Pillow==5.2.0
+protobuf==3.6.0
+scikit_learn==0.19.1
+sorl_thumbnail==12.4.1
