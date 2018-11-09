@@ -1,0 +1,67 @@
+.modal-dialog {
+	position: relative;
+	top: 20%;
+	width: 30%;
+}
+
+.modal-header {
+	height: auto;
+	border: 0;
+	border-bottom: 0;
+
+}
+
+
+.modal-title {
+	/* margin: 8% 0; */
+	font-weight: bold;
+	text-align: center;
+	margin-left: 42%;
+	/* font-size: 50px; */
+}
+
+.modal-body {
+	/* height: 35%; */
+	height: auto;
+	padding: 20px;
+	padding-top: 0px;
+	/* margin-top: 5%; */
+}
+
+.modal-body-text {
+	font-size: 20px;
+	font-weight: bold;
+}
+
+
+.modal-footer {
+	height: 26%;
+	padding: 0;
+	margin: 0;
+}
+
+
+.modal-footer .btn+.btn {
+    margin-bottom: 0;
+    margin-left: 0;
+}
+
+
+.modal-content {
+	height: auto;
+    border-radius: 5px;
+	border: 0;
+}
+
+.confirmation-dialog-btn {
+    height: 50px;
+    float: left;
+    margin: 0 !important;
+    border-radius: 0;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    width: 100%;
+    text-transform: uppercase;
+    font-size: 18px;
+	font-weight: normal;
+}

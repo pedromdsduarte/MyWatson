@@ -1,0 +1,103 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'core/css/bootstrap.min.css' %}">
+    <!-- Themify Icons -->
+    <link rel="stylesheet" href="{% static 'core/css/themify-icons.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'core/navbar.css' %}" />
+
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'core/images/mywatson_logo.png' %}"/>
+    <link rel="icon" type="image/x-icon" href="{% static 'core/images/mywatson_logo.png' %}"/>
+
+
+    <script src="{% static 'core/js/jquery-3.2.1.min.js' %}"></script>
+    <script src="{% static 'core/js/bootstrap.bundle.min.js' %}"></script>
+
+
+    <link rel="dns-prefetch" href="//fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css?family=Rubik:300,400,500" rel="stylesheet">
+
+
+  <title>{% block title %}MyWatson{% endblock %}</title>
+
+</head>
+
+<!--<body id="bg" style="background-image: url('{% static "core/images/ai-bg.jpg"%}')">-->
+<body id="bg">
+
+    <div class="nav-menu fixed-top">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <nav class="navbar navbar-dark navbar-expand-lg">
+                        <a class="navbar-brand" href="{% url 'landing' %}">
+							<!-- My<span style="font-weight: 500;">Watson</span> -->
+							<img src="{% static 'core/images/mywatson_transparent.png' %}" class="img-fluid" alt="logo">
+						</a> <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
+                        <div class="collapse navbar-collapse" id="navbar">
+                            <ul class="navbar-nav ml-auto">
+                                <li class="nav-item"> <a id="gallery" class="nav-link active" href="{% url 'mywatson:index' %}">GALLERY</a> </li>
+                                <li class="nav-item"> <a id="upload" class="nav-link" href="{% url 'mywatson:upload_photo' %}">UPLOAD PHOTO</a> </li>
+                                <li class="nav-item"> <a id="people" class="nav-link" href="{% url 'mywatson:get_people' %}">PEOPLE</a> </li>
+                                <form id="search-bar" class="navbar-form navbar-left" action="{% url 'mywatson:query' %}" method="get">
+                                  <div class="input-group">
+                                    <input type="text" class="form-control" name="q" placeholder="Search">
+                                    <div class="input-group-btn">
+                                      <button class="btn btn-default" type="submit">
+                                        <i class="ti-search"></i>
+                                      </button>
+                                    </div>
+                                  </div>
+                                </form>
+
+
+                            </ul>
+                            <ul class="navbar-nav ml-auto navbar-right">
+                                <li id="greetings-user" class="nav-item"><span class="ti-user"></span><span id="username-label">{{ user.get_username }}</span></li>
+                                <li class="nav-item"><a href="{% url 'logout' %}" class="btn btn-outline-light my-3 my-sm-0 ml-lg-3">Logout</a></li>
+
+                            </ul>
+
+
+                        </div>
+                    </nav>
+
+                </div>
+            </div>
+        </div>
+
+        <script>
+
+
+            $(".navbar-nav").find("#gallery").removeClass("active");
+            var url = window.location.pathname;
+            tokens = url.split('/')
+            if (tokens.includes("upload")) {
+            $   (".navbar-nav").find("#upload").addClass("active");
+            }
+            else if (tokens.includes("people") || tokens.includes("get_people")) {
+                $(".navbar-nav").find("#people").addClass("active");
+            }
+            else {
+                $(".navbar-nav").find("#gallery").addClass("active");
+            }
+
+        </script>
+    </div>
+
+  <div id="content">
+	  <div id="wait-modal">
+	  </div>
+
+	  {% block content %} {% endblock %}
+
+  </div>
+
+</body>
+
+</html>

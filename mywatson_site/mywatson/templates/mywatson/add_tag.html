@@ -1,0 +1,39 @@
+{% extends 'mywatson/base.html' %}
+{% load static %}
+
+{% block title %}Photo {{ photo.id }} - New tag{% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'mywatson/base.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'mywatson/photo_details.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'mywatson/add_tag.css' %}" />
+
+<div class="content-wrapper">
+
+  <div class="img-wrapper">
+
+    <!--<img class="img-img" src="{{ photo.image.url }}">-->
+    <div class="img-img">
+      <canvas id="img_canvas"></canvas>
+    </div>
+
+    <script>
+        var imgurl = '{{ photo.image.url }}'
+        var photo_id = '{{ photo.id }}'
+    </script>
+    <script src="{% static 'mywatson/draw_box.js' %}"></script>
+
+    <div class="img-nav">
+      <a href="{% url 'mywatson:photo' photo.id %}" class="img-nav-control img-previous">
+        <span class="glyphicon glyphicon-chevron-left"></span>
+        Back to photo
+      </a>
+    </div>
+  </div>
+
+
+</div>
+
+
+{% endblock %}

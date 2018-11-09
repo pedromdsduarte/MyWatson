@@ -1,0 +1,32 @@
+.img-thumbnail {
+	padding: 5px;
+    /* border-radius: 5px; */
+    border-radius: 0;
+    border: 8px solid #00171F;
+    margin: 5px;
+    margin-top: 20px;
+    padding: 7px;
+    box-shadow: 1px 1px 2px 1px black;
+    transition: all 0.25s ease-in-out;
+    -webkit-transition: all 0.25s ease-in-out;
+    -moz-transition: all 0.25s ease-in-out;
+
+}
+
+.img-thumbnail:hover {
+    -moz-transform: scale(1.1);
+    -webkit-transform: scale(1.1);
+    -o-transform: scale(1.1);
+    -ms-transform: scale(1.1);
+    transform: scale(1.1);
+}
+
+.gallery {
+	text-align: center;
+	padding-right: 20px;
+	padding-left: 20px;
+}
+
+.gallery > a:hover {
+    text-decoration: none;
+}

@@ -1,0 +1,97 @@
+
+@import url(https://fonts.googleapis.com/css?family=Roboto:300);
+
+body {
+    width: 360px;
+    padding: 4% 0 0;
+    margin: auto;
+}
+
+html {
+    min-height: 50%;
+    height: 70%;
+}
+
+
+
+h1{
+    text-align: center;
+    margin: -50px;
+    margin-bottom: 20px;
+    margin-top: 0px;
+    font-size: 50px;
+    font-family: 'Roboto', sans-serif;
+    color: white;
+}
+
+.form-div {
+    position: relative;
+    z-index: 1;
+    background: #FFFFFF;
+    max-width: 360px;
+    /* margin: 10px auto 100px; */
+    margin: auto;
+    padding: 45px;
+    text-align: center;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+    max-height: 100%;
+	padding-bottom: 10px;
+}
+
+.form-div input {
+    font-family: "Roboto", sans-serif;
+    outline: 0;
+    background: #f2f2f2;
+    width: 100%;
+    border: 0;
+    margin: auto;
+    margin-bottom: 5px;
+    padding: 15px;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+
+.form-div button {
+    font-family: "Roboto", sans-serif;
+    text-transform: uppercase;
+    outline: 0;
+    /* background: #4CAF50; */
+	background: #112c60;
+    width: 100%;
+    border: 0;
+    padding: 15px;
+    color: #FFFFFF;
+    font-size: 14px;
+    -webkit-transition: all 0.3 ease;
+    transition: all 0.3 ease;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.form-div button:hover, .form-div button:active, .form-div button:focus {
+    /* background: #43A047; */
+	background: #092251;
+}
+
+.form-div .message {
+    margin: 15px 0 0;
+    color: #b3b3b3;
+    font-size: 15px;
+}
+
+.form-div .error {
+    margin: 5px 0 0;
+    color: red;
+    font-size: 13px;
+    text-align: left;
+}
+
+.form-div .message a {
+    /* color: #4CAF50; */
+	color: #112c60;
+    text-decoration: none;
+}
+
+.form-div .register-form {
+    display: none;
+}

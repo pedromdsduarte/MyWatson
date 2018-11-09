@@ -1,0 +1,220 @@
+{% extends 'mywatson/base.html' %}
+{% load static %}
+
+{% block title %}Photo {{ photo.id }}{% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'mywatson/base.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'mywatson/photo_details.css' %}" />
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+<script>
+  var tags = {}
+</script>
+
+
+<div class="image">
+  <canvas id="img_canvas" width="1024" height="576"></canvas>
+</div>
+
+<div class="nav-btns">
+  <a href="{% url 'mywatson:photo' view.previous_photo.id %}" class="btn btn-default" role="button">Previous</a>
+  <a href="{% url 'mywatson:photo' view.next_photo.id %}" class="btn btn-default" style="float:right" role="button">Next</a>
+</div>
+
+<form id="remove_photo" action="{% url 'mywatson:photo' photo.id%}" method="post">
+  {% csrf_token %}
+  <input name="remove_photo" type="submit" id="remove-btn" class="btn btn-danger" value="Remove photo" />
+  <input type='hidden' value='{{ photo.id }}' name='photo' />
+</form>
+<!--<img src="{{ photo.image.url }}">-->
+
+
+
+
+<div class="tags">
+  <strong>Tags</strong>
+
+  <div class="tag_remove_line template">
+    <form id="removetags" action="" method="post">
+      <input name="remove_tag" type="submit" class="button_remove" value="-" />
+      <input type='hidden' value='Tag_Text' name='tag'>
+    </form>
+    <p class="tag_p">Tag_Text</p>
+  </div>
+
+  {% for tag in view.tags %}
+  <div class="tag_remove_line" id='{{ tag.id }}'>
+    <form id="removetags" action="{% url 'mywatson:photo' photo.id%}" method="post">
+      {% csrf_token %}
+      <input name="remove_tag" type="submit" class="button_remove" value="-" />
+      <input type='hidden' value='{{ tag.id }}' name='tag'>
+    </form>
+    <p class="tag_p" id='{{ tag.id }}'>{{ tag.tag }}</p>
+    <script>
+      if ('{{ tag.tag }}' in tags) {
+        var tag_text = '{{ tag.tag }}'
+        $('.tag_p:contains(' + tag_text + ')').last().parent().remove()
+        var id = $('.tag_p:contains(' + tag_text + ')').last().attr('id')
+        $('.tag_p:contains(' + tag_text + ')').last().attr('id', id + "," + '{{ tag.id }}')
+      } else {
+        tags['{{ tag.tag }}'] = []
+      }
+      // TODO: 1 tag expande em 2 tags individuais
+      tags['{{ tag.tag }}'].push(['{{ tag.startX }}',
+        '{{ tag.startY }}',
+        '{{ tag.endX }}',
+        '{{ tag.endY }}',
+      ])
+    </script>
+  </div>
+  {% endfor %}
+
+  <br>
+
+  <a href="{% url 'mywatson:add_tag' photo.id %}">Add tags...</a>
+
+  <!--
+    <form id="addtags" action="{% url 'mywatson:photo' photo.id%}" method="post" accept-charset="utf-8">
+        {% csrf_token %}
+        <input id="newtag" name="new_tag" type="text" placeholder="New tag..."">
+        <input type="submit" class="button" value="+"/>
+    </form> -->
+
+</div>
+
+
+
+<script>
+  // TODO: Refactor this
+
+  var canvas = document.getElementById('img_canvas')
+  var context = canvas.getContext('2d')
+  var ctx = context
+  make_base('{{ photo.image.url }}')
+  var drawn = {}
+
+  function make_base(imgurl) {
+
+    var dpr = window.devicePixelRatio; //used to remove pixelization
+    canvas.width = 1024 * dpr;
+    canvas.height = 576 * dpr;
+
+    base_image = new Image();
+    base_image.src = imgurl;
+
+    base_image.onload = function() {
+      context.drawImage(base_image, 0, 0, canvas.width, canvas.height);
+    }
+
+  }
+
+  function correct_coords(rect) {
+    coords = []
+    for (i = 0; i < rect.length; i++)
+      coords.push(parseInt(rect[i]))
+
+    coords = resize_coords(coords)
+
+    return coords
+  }
+
+  function draw(rect) {
+    context.strokeStyle = '#7FFF00';
+    context.lineWidth = 2;
+
+    var coords = correct_coords(rect)
+
+    x1 = coords[0]
+    y1 = coords[1]
+
+    x2 = coords[2]
+    y2 = coords[3]
+    width = x2 - x1
+    height = y2 - y1
+    context.strokeRect(x1, y1, width, height);
+
+  }
+
+  function resize_coords(coords) {
+    Rx = canvas.width / '{{ view.width }}'
+    Ry = canvas.height / '{{ view.height }}'
+    var new_coords = [coords[0] * Rx, coords[1] * Ry,
+      coords[2] * Rx, coords[3] * Ry
+    ]
+    return new_coords
+  }
+
+  $(".tag_p").hover(function() {
+
+    $(this).css("background-color", "yellow");
+    var tag_boxes = tags[$(this).text()]
+    for (i in tag_boxes) {
+      box = tag_boxes[i]
+      if (box[0] != "None") {
+        draw(box)
+      }
+    }
+
+  }, function() {
+    var tag = $(this).text()
+    if (!drawn[tag]) {
+      $(this).css("background-color", "white");
+      context.clearRect(0, 0, canvas.width, canvas.height);
+      context.drawImage(base_image, 0, 0, canvas.width, canvas.height);
+    }
+  });
+
+
+  $(".tag_p").click(function() {
+    var tag = $(this).text()
+    drawn[tag] = !drawn[tag]
+    if (drawn[tag]) {
+      $(this).css("background-color", "yellow");
+      var tag_boxes = tags[$(this).text()]
+      for (i in tag_boxes) {
+        box = tag_boxes[i]
+        if (box[0] != "None") {
+          draw(box)
+        }
+      }
+
+      if (tags[tag].length > 1) {
+        // More than 1 tag
+        //$(this).parent().append('<p class=subtag_p>' + tag + '</p>')
+        var clone;
+        var ids = $(this).attr('id').split(',')
+        for (i in ids) {
+          var id = ids[i]
+          clone = $('.tag_remove_line.template').clone()
+          clone.removeClass('template')
+          //$(this).parent().find('form input[name="remove_tag"]').css('opacity','0')
+
+          $(this).parent().find('form input[name="remove_tag"]').attr('value', '.')
+          $(this).parent().find('form input[name="remove_tag"]').css('background-color', 'blue')
+
+          $(this).parent().append(clone)
+          clone.attr('id', id)
+          clone.find('p').text(tag)
+        }
+        //console.log(clone)
+      }
+
+    } else {
+      $(this).css("background-color", "white");
+      context.clearRect(0, 0, canvas.width, canvas.height);
+      context.drawImage(base_image, 0, 0, canvas.width, canvas.height);
+      $(this).parent().parent().find('.tag_remove_line .tag_remove_line').remove()
+      $(this).parent().find('form input[name="remove_tag"]').attr('value', '-')
+      $(this).parent().find('form input[name="remove_tag"]').css('background-color', 'red')
+
+    }
+
+
+
+  });
+</script>
+
+{% endblock %}

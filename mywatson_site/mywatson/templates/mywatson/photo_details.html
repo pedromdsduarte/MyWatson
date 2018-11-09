@@ -1,0 +1,259 @@
+{% extends 'mywatson/base.html' %}
+{% load static %}
+
+{% block title %}Photo {{ photo.id }}{% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'mywatson/base.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'mywatson/loading.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'mywatson/modal.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'mywatson/photo_details.css' %}" />
+
+
+<!-- <script src="{% static 'mywatson/bootstrap-confirmation/bootstrap-confirmation.js' %}"></script> -->
+<script src="{% static 'mywatson/bootstrap-confirmation/bootstrap-confirmation.js' %}"></script>
+<script src="{% static 'mywatson/popper/popper.min.js' %}"></script>
+<script src="{% static 'mywatson/bootstrap4-confirmation/bootstrap-confirmation.js' %}"></script>
+
+
+
+<!---------------------------------------------------------------------------->
+<!--							MAIN DIVS 									 ->
+<!---------------------------------------------------------------------------->
+
+<div class="img-wrapper">
+	<img class="img-img" src="{{ photo.image.url }}">
+	<canvas id="cv" class="covering-canvas"></canvas>
+	<div class="menu-wrapper">
+	  <div class="bar1"></div>
+	  <div class="bar2"></div>
+	  <div class="bar3"></div>
+	</div>
+
+	<div class=menu-panel>
+		<span data-toggle="modal" data-target="#confirmation-delete-modal">
+			<span class="ti-trash" data-toggle="tooltip" data-placement="right" title="Delete photo"></span>
+		</span>
+		<span id="add-tag-btn" class="ti-plus" data-toggle="tooltip" data-placement="right" title="Add tag" ></span>
+		<span data-toggle='modal' data-target='#confirmation-retag-modal'>
+			<span id="retag-btn" class="ti-reload"  data-toggle="tooltip" data-placement="right" title="Reload tags"></span>
+		</span>
+	</div>
+
+</div>
+<div class="nav-btn" id="prev-btn">
+  	<span class="ti-angle-left"></span>
+</div>
+<div class="nav-btn" id="next-btn">
+  	<span class="ti-angle-right"></span>
+</div>
+
+
+<div class="tags-wrapper">
+	<ul class="tags-list">
+	</ul>
+</div>
+
+
+
+<!---------------------------------------------------------------------------->
+<!--							HIDDEN STUFF 								 ->
+<!---------------------------------------------------------------------------->
+
+<div id="confirmation-delete-modal" class="modal fade" role="dialog">
+	<div class="modal-dialog">
+
+	<!-- Modal content-->
+	<div class="modal-content">
+		<div class="modal-header">
+			<h4 class="modal-title"><span id="dialog-icon" class="ti-trash"/></h4>
+			<button type="button" class="close" data-dismiss="modal">&times;</button>
+		</div>
+		<div class="modal-body">
+			<p class="modal-body-text">Are you sure you want to delete this photo?</p>
+		</div>
+		<div class="modal-footer">
+			<button id="confirm-delete-photo" type="button" class="btn btn-danger confirmation-dialog-btn" data-dismiss="modal">Yes</button>
+			<button id="close-delete-photo" type="button" class="btn btn-primary confirmation-dialog-btn" data-dismiss="modal">Close</button>
+		</div>
+	</div>
+
+	</div>
+</div>
+
+<form id="remove_photo" class="hidden" action="{% url 'mywatson:photo' photo.id%}" method="post">
+	{% csrf_token %}
+	<input name="remove_photo" type="submit" id="remove-photo-input" class="btn btn-danger" value="Remove photo" />
+	<input type='hidden' value='{{ photo.id }}' name='photo' />
+</form>
+
+
+<div id="confirmation-retag-modal" class="modal fade" role="dialog">
+	<div class="modal-dialog">
+
+	<!-- Modal content-->
+	<div class="modal-content">
+		<div class="modal-header">
+			<h4 class="modal-title"><span id="dialog-icon" class="ti-reload"/></h4>
+			<button type="button" class="close" data-dismiss="modal">&times;</button>
+		</div>
+		<div class="modal-body">
+			<p class="modal-body-text">Are you sure you want to re-tag this photo?</p>
+			<p>This will delete all current tags and replace them with the original automatic tags!</p>
+		</div>
+		<div class="modal-footer">
+			<button id="confirm-retag-photo" type="button" class="confirmation-dialog-btn btn btn-danger" data-dismiss="modal">Yes</button>
+			<button id="close-retag-photo" type="button" class="confirmation-dialog-btn btn btn-primary" data-dismiss="modal">Close</button>
+		</div>
+	</div>
+
+	</div>
+</div>
+
+<div class="dim">
+</div>
+
+<div id="loading-modal" class="modal">
+	<div class="modal-dialog">
+
+	<!-- Modal content-->
+		<div class="modal-content">
+
+			<div class="modal-body">
+				<p class="modal-body-text">Re-tagging photo</p>
+				<div class="sk-cube-grid">
+					<div class="sk-cube sk-cube1"></div>
+					<div class="sk-cube sk-cube2"></div>
+					<div class="sk-cube sk-cube3"></div>
+					<div class="sk-cube sk-cube4"></div>
+					<div class="sk-cube sk-cube5"></div>
+					<div class="sk-cube sk-cube6"></div>
+					<div class="sk-cube sk-cube7"></div>
+					<div class="sk-cube sk-cube8"></div>
+					<div class="sk-cube sk-cube9"></div>
+				</div>
+				<p class="modal-body-text smaller">Please wait a moment...</p>
+			</div>
+
+
+		</div>
+
+	</div>
+</div>
+
+<!---------------------------------------------------------------------------->
+<!--						DJANGO SCRIPT FOR TAGS							 ->
+<!---------------------------------------------------------------------------->
+
+<script>
+	var CONST_URL = "{% url 'mywatson:photo' photo.id %}"
+	var CONST_VIEW_WIDTH = '{{ view.width }}'
+	var CONST_VIEW_HEIGHT = '{{ view.height }}'
+	var CONST_PREV_URL = "{% url 'mywatson:photo' view.previous_photo.id %}"
+	var CONST_NEXT_URL = "{% url 'mywatson:photo' view.next_photo.id %}"
+	var CONST_ENABLED_BOXES = {}
+
+	var tags = {}
+</script>
+{% for tag in view.tags %}
+<script>
+
+	/**/
+	if ('{{ tag.id }}' in tags) {
+		// var tag_text = '{{ tag.tag }}'
+		// $('.tag_p:contains(' + tag_text + ')').last().parent().remove()
+		// var id = $('.tag_p:contains(' + tag_text + ')').last().attr('id')
+		// $('.tag_p:contains(' + tag_text + ')').last().attr('id', id + "," + '{{ tag.id }}')
+	} else {
+		tags['{{ tag.id }}'] = []
+	}
+	// TODO: 1 tag expande em 2 tags individuais
+	tags['{{ tag.id }}'].push(
+		['{{ tag.startX }}',
+		'{{ tag.startY }}',
+		'{{ tag.endX }}',
+		'{{ tag.endY }}',])
+
+	// console.log('{{ tag.id }}')
+	// var new_tag = document.createElement("div")
+	//
+	// var category = '{{ tag.category }}'.replace(' ', '-')
+	// new_tag.className = 'tag ' + category
+	// new_tag.id = '{{ tag.id }}'
+	//
+	//
+	// $(new_tag).text('{{ tag.tag }}')
+	//
+	//
+	// var rem_icon = document.createElement("span")
+	// rem_icon.className = 'rem-tag ti-close'
+	//
+	// $(rem_icon).attr("data-toggle", "confirmation");
+	// $(rem_icon).attr("data-placement", "top");
+	// $(rem_icon).attr("data-singleton", "true");
+	// $(rem_icon).attr("data-title", " ");
+	//
+	// $(rem_icon).click(function(e) {
+	// 	if (!e) var e = window.event;
+    // 	e.cancelBubble = true;
+    // 	if (e.stopPropagation) e.stopPropagation();
+	// });
+	//
+	//
+	// $(new_tag.append(rem_icon))
+	//
+	// $('.tags-wrapper').append(new_tag)
+	//
+	//
+	//
+
+
+	/* ***************** CREATE NEW TAG ELEMENT ***************** */
+
+	var new_tag_li = document.createElement('li')
+	var new_tag_a = document.createElement('a')
+	var category = '{{ tag.category }}'.replace(' ', '-')
+
+	new_tag_a.className = 'tag-a ' + category
+	new_tag_a.id = '{{ tag.id }}'
+	$(new_tag_a).text('{{ tag.tag }}')
+
+
+
+	/* ***************** CREATE REMOVAL BUTTON ***************** */
+
+	var rem_icon = document.createElement("span")
+	rem_icon.className = 'rem-tag ti-close'
+
+	$(rem_icon).attr("data-toggle", "confirmation");
+	$(rem_icon).attr("data-placement", "top");
+	$(rem_icon).attr("data-singleton", "true");
+	$(rem_icon).attr("data-title", " ");
+
+	$(rem_icon).click(function(e) {
+		if (!e) var e = window.event;
+    	e.cancelBubble = true;
+    	if (e.stopPropagation) e.stopPropagation();
+	});
+
+	/* ***************** APPEND TO TAG WRAPPER ***************** */
+
+	$(new_tag_a.append(rem_icon))
+	$(new_tag_li).append(new_tag_a)
+	$('.tags-list').append(new_tag_li)
+	var CONST_TAGS = tags;
+
+
+
+</script>
+{% endfor %}
+
+<!---------------------------------------------------------------------------->
+<!--							SCRIPTS 									 ->
+<!---------------------------------------------------------------------------->
+
+<script src="{% static 'mywatson/photo_details.js' %}"></script>
+
+
+{% endblock %}

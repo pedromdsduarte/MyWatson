@@ -1,0 +1,17 @@
+{% extends 'mywatson/base.html' %}
+{% load static %}
+{% load thumbnail %}
+
+{% block title %}Not found{% endblock %}
+
+
+{% if user.is_authenticated %}
+{% block content %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'mywatson/base.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'mywatson/gallery_view.css' %}" />
+
+Error 500
+
+{% endblock %}
+{% endif %}

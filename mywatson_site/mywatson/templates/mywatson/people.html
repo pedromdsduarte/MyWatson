@@ -1,0 +1,86 @@
+{% extends 'mywatson/base.html' %}
+{% load static %}
+{% load thumbnail %}
+
+{% block title %}People{% endblock %}
+
+{% if user.is_authenticated %}
+{% block content %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'mywatson/base.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'mywatson/clusters.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'mywatson/assistance.css' %}" />
+
+
+<div class="div-cluster-controller">
+    <span class="slider-title">Number of clusters:</span>
+
+	<div class="div-wrapper-slider-bubble">
+		<div class="div-slider-container">
+		    <input type="range" class="slider" id="cluster-slider" name="cluster-slider"  data-thumbwidth="100">
+		    <!--<output for="cluster-slider" onforminput="value = cluster-slider.valueAsNumber;"></output>-->
+		    <span class="slider-value"></span>
+		</div>
+	</div>
+	<span class="silhouete-score">Cluster score:<br></span>
+
+	<span class="msg-edit-mode">Edit mode</span>
+	<label class="switch">
+		<input type="checkbox" id="edit-mode-check" onclick="toggle_edit_mode()">
+		<div class="tog-slider round"></div>
+	</label>
+
+
+    <!--<button id="edit-mode-btn" class="edit-save-btn" type="button" onclick="toggle_edit_mode()">Edit mode is OFF</button>-->
+	<button id="save-btn" class="btn btn-light edit-save-btn" type="button" onclick="save_changes()">Save</button>
+
+    <span id="save-label"></span>
+</div>
+
+<div class="assistance-btn">
+	<img class="watson-img" src="{% static 'core/images/mywatson_logo.png' %}"/>
+	<!-- <span class="glyphicon glyphicon-question-sign"></span> -->
+</div>
+<div class="assistance-panel">
+	<img class="watson-img" src="{% static 'core/images/mywatson_logo.png' %}"><b>Need assistance?</b></img>
+	<p>In this page, you can view the <b>people</b> present in your gallery.</p>
+	<p>In the control panel, you can select in how many clusters you want to group people by. By <b>default</b>, I show you what I think is the <b>best</b> grouping!</p>
+	<p>In <b>edit mode</b>, you can rename and re-arrange clusters by dragging and dropping. Don't forget to <b>save</b> your changes!</p>
+	<p>The <b>cluster score</b> indicates the degree of confidence I have in a grouping. Groupings you make always have maximum score!</p>
+	<p>You can click on a face to go directly to its photo!</p>
+</div>
+
+
+<div class="cluster-container">
+</div>
+
+<script src="{% static 'mywatson/clusters.js' %}"></script>
+<script src="{% static 'mywatson/assistance.js' %}"></script>
+
+<script>
+    var cluster_json = '{{ view.groups_json }}'
+
+    if (cluster_json === '{}') {
+        $('.div-cluster-controller > *').hide()
+        $('.cluster-container').hide()
+        $('.div-cluster-controller').append('<p id="no-cluster-msg">No faces were detected</p>')
+    }
+    else {
+
+        var clusters = get_clusters_from_json(cluster_json)
+        var n = '{{ view.n_clusters }}'
+        var MEDIA_FOLDER = '{{ view.media_url }}'
+
+        var cluster_indexes = init_slider(n);
+        display_clusters(cluster_indexes, n)
+    }
+
+
+
+
+</script>
+
+
+
+{% endblock %}
+{% endif %}

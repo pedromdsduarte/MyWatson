@@ -1,0 +1,58 @@
+{% load static %}
+
+<html>
+<head>
+
+    <link rel="stylesheet" type="text/css" href="{% static 'mywatson/base.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'core/landing.css' %}" />
+    <link href="https://fonts.googleapis.com/css?family=Tajawal" rel="stylesheet">
+
+    <title>MyWatson</title>
+
+</head>
+
+<body id="bg" style="background-image: url('{% static "core/images/ai-bg.jpg"%}')">
+
+    <h1>MyWatson</h1>
+    {% if not user.is_authenticated %}
+
+    <div class="form-div">
+        <form method="post" class="login-form">
+
+            {% csrf_token %}
+
+            {{ form.username }}
+            {{ form.password }}
+
+            {% if form.non_field_errors %}
+                {% for error in form.non_field_errors %}
+                    <p class="error">* {{ error }}</p>
+                {% endfor %}
+            {% endif %}
+
+            <button type="submit">Login</button>
+            <p class="message">Not registered? <a href="{% url 'signup' %}">Create an account</a></p>
+        </form>
+
+    </div>
+
+
+
+    {% endif %}
+
+    {% if user.is_authenticated %}
+
+    <p>Welcome <strong>{{ user }}</strong>!</p>
+    <div class="btn">
+        <a href="{% url 'mywatson:index' %}">MyWatson</a>
+    </div>
+
+
+    <div class="btn">
+        <a href="{% url 'logout' %}">Log out</a>
+    </div>
+
+    {% endif %}
+</body>
+
+</html>

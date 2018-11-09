@@ -1,0 +1,44 @@
+{% extends 'mywatson/base.html' %}
+{% load static %}
+{% load thumbnail %}
+
+{% block title %}Gallery{% endblock %}
+
+
+{% if user.is_authenticated %}
+{% block content %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'mywatson/base.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'mywatson/gallery_view.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'mywatson/assistance.css' %}" />
+
+<!-- <div class="assistance-btn btn btn-info btn-lg"> -->
+<div class="assistance-btn">
+	<!-- <span class="ti-help"></span> -->
+	<img class="watson-img" src="{% static 'core/images/mywatson_logo.png' %}"/>
+</div>
+<div class="assistance-panel">
+	<!-- <img class="watson-img" src="{% static 'favicon.ico' %}"><b>Need assistance?</b></img> -->
+	<img class="watson-img" src="{% static 'core/images/mywatson_logo.png' %}"><b>Need assistance?</b></img>
+	<p>This is your <b>photo gallery</b>. All the photos you upload will appear here.</p>
+	<p>You can click a photo to see it better. I will also show you the <b>labels</b> I came up with for that photo!</p>
+	<p>In the <b>search bar</b>, you can search for any labels, and I will try to show you the relevant images!</p>
+</div>
+
+<ul class="gallery">
+  {% for photo in photos %}
+
+    {% thumbnail photo.image "200x200" crop="center" as im %}
+      <a href="{% url 'mywatson:photo' photo.id %}">
+        <img class="img-thumbnail" src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+      </a>
+    {% endthumbnail %}
+    {% empty %}
+      <i>Looks like your gallery is empty!</i><br>
+  {% endfor %}
+</ul>
+
+<script src="{% static 'mywatson/assistance.js' %}"></script>
+
+{% endblock %}
+{% endif %}

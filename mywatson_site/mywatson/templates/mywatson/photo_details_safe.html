@@ -1,0 +1,65 @@
+{% extends 'mywatson/base.html' %}
+{% load static %}
+
+{% block title %}Photo {{ photo.id }}{% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'mywatson/base.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'mywatson/photo_details.css' %}" />
+
+
+<div class="content-wrapper">
+    <div class="tags-wrapper">
+
+      <div class="tags-header">Tags</div>
+      <div class="list-group">
+        {% for tag in view.tags %}
+          <div class="list-group-item" id='{{ tag.id }}'>
+            <span>{{ tag.tag }}</span>
+            <form id="removetags" action="{% url 'mywatson:photo' photo.id%}" method="post">
+              {% csrf_token %}
+              <input name="remove_tag" type="submit" class="btn-remove-tag" value="_" />
+              <input type='hidden' value='{{ tag.id }}' name='tag'>
+            </form>
+
+
+          </div>
+        {% endfor %}
+      </div>
+
+
+      <a href="{% url 'mywatson:add_tag' photo.id %}" class="img-nav-control tag-add">
+        <span class="glyphicon glyphicon-plus"></span>
+        Add tags
+      </a>
+
+      <form id="remove_photo" action="{% url 'mywatson:photo' photo.id%}" method="post">
+        {% csrf_token %}
+        <input name="remove_photo" type="submit" id="remove-btn" class="img-nav-control img-remove" value="Remove photo" />
+        <input type='hidden' value='{{ photo.id }}' name='photo' />
+      </form>
+
+    </div>
+
+    <div class="img-wrapper">
+      <img class="img-img" src="{{ photo.image.url }}">
+      <div class="img-nav">
+
+        <a href="{% url 'mywatson:photo' view.previous_photo.id %}" class="img-nav-control img-previous">
+          <span class="glyphicon glyphicon-chevron-left"></span>
+          Previous
+        </a>
+
+        <a href="{% url 'mywatson:photo' view.next_photo.id %}" class="img-nav-control img-next">
+          Next
+          <span class="glyphicon glyphicon-chevron-right"></span>
+        </a>
+
+      </div>
+    </div>
+
+</div>
+
+
+{% endblock %}

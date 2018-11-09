@@ -1,0 +1,182 @@
+/* ****************** Base ****************** */
+.div-cluster-controller {
+    border: 2px solid #3277C3;
+    margin: 10px;
+    padding: 5px;
+}
+
+.div-cluster {
+    border: 1px solid #3277C3;
+    margin: 10px;
+    margin-bottom: 20px;
+    margin-top: 5px;
+    padding: 5px;
+}
+
+h1 {
+    margin-left: 10px;
+    width: 20%;
+    height: 100%;
+    margin-bottom: 0px;
+    padding-left: 5px;
+}
+
+img:hover {
+    box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
+}
+
+.img-thumbnail {
+    height: 175px;
+    width:auto;
+}
+
+/* ****************** Buttons ****************** */
+
+.edit-save-btn {
+    display: inline-block;
+    padding: 8px 16px;
+    margin: 5px;
+    border: 1px solid #ddac;
+}
+
+#edit-mode-btn {
+    background-color: #f1f1f1;
+    color: black;
+}
+
+#edit-mode-btn:hover {
+    background-color: #ddac;
+}
+
+#save-btn {
+    background-color: #8ab347;
+    color: white;
+}
+
+#save-btn:hover {
+    background-color: #a1e631;
+}
+
+#save-btn:active {
+    background-color: #a1e620;
+    transform: translateY(1px);
+}
+
+#save-label {
+    display: none;
+    font-style: italic;
+}
+
+/* ****************** Slider ****************** */
+
+.slider-title {
+    width: 15%;
+    float: left;
+    height: 100%;
+    line-height: 50px;
+}
+
+.div-slider-container {
+    width: 50%;
+    float: left;
+    height: 100%;
+    position: relative;
+    top: 15px;
+}
+
+
+input[type="range"] {
+    -webkit-appearance: none;
+    background-color: white;
+    border-radius: 1px;
+    width: 90%;
+    float: left;
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+    background: #3277C3;
+    border: none;
+    border-radius: 3px;
+    height: 30%;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    background: white;
+    border-radius: 50%;
+    cursor: pointer;
+    position: relative;
+    bottom: 6px;
+    border: 1px solid black;
+}
+
+input[type="range"]:focus {
+    outline: none;
+}
+
+/* ****************** Slider label ****************** */
+
+.slider-value {
+    display: inline-block;
+    position: relative;
+    color: white;
+    line-height: 20px;
+    text-align: center;
+    border-radius: 35%;
+    background: #3277C3 ;
+    padding: 5px 10px;
+    margin-left: 10px;
+    width: 35px;
+    height: 30px;
+    bottom: 4px;
+}
+
+.slider-value::after {
+    position: absolute;
+    top: 8px;
+    left: -7px;
+    width: 0;
+    height: 0;
+    border-top: 7px solid transparent;
+    border-right: 7px solid #3277C3;
+    border-bottom: 7px solid transparent;
+    content: '';
+}
+
+output {
+    position: absolute;
+    top: -32px;
+    display: block;
+    width: 50px;
+    height: 24px;
+    border: 1px solid #e2e2e2;
+    background-color: #fff;
+    border-radius: 3px;
+    color: #777;
+    font-size: .8em;
+    line-height: 10px;
+    text-align: center;
+    transform: translateX(-50%);
+}
+
+input[type=range]:active + output {
+    display: block;
+    transform: translateX(-50%);
+}
+
+/* ****************** Edit mode ****************** */
+
+.cluster-name-editable {
+    color: gray;
+    border: 2px dashed #ddac;
+}
+
+.img-movable {
+    cursor: move;
+}
+
+.div-droppable {
+    border: 2px dashed #ddac;
+}

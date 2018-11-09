@@ -1,0 +1,71 @@
+{% extends 'mywatson/base.html' %}
+{% load static %}
+{% load thumbnail %}
+
+{% block title %}Loading...{% endblock %}
+
+{% if user.is_authenticated %}
+{% block content %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'mywatson/base.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'mywatson/modal.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'mywatson/loading.css' %}" />
+
+<div class="dim"></div>
+
+<div id="loading-modal" class="modal">
+	<div class="modal-dialog">
+
+
+		<!-- Modal content-->
+		<div class="modal-content">
+
+			<div class="modal-header">
+    			<h4 class="modal-title">
+					<span id="dialog-icon" class="ti-user"></span>
+					<br>
+					<span>Grouping people together<span>
+				</h4>
+    		</div>
+			<div class="modal-body">
+				<div class="sk-cube-grid">
+					<div class="sk-cube sk-cube1"></div>
+					<div class="sk-cube sk-cube2"></div>
+					<div class="sk-cube sk-cube3"></div>
+					<div class="sk-cube sk-cube4"></div>
+					<div class="sk-cube sk-cube5"></div>
+					<div class="sk-cube sk-cube6"></div>
+					<div class="sk-cube sk-cube7"></div>
+					<div class="sk-cube sk-cube8"></div>
+					<div class="sk-cube sk-cube9"></div>
+				</div>
+				<p>This may take a while, depending on the number of photos you have in your gallery!</p>
+			</div>
+
+
+		</div>
+
+	</div>
+</div>
+<script>
+	$('#loading-modal').show()
+	window.location.href = "{% url 'mywatson:people' %}"
+
+	// $.ajax({
+	//     url: "{% url 'mywatson:people' %}",
+	//     type: 'GET',
+	//     success: function(data){
+	//         window.location.href = "{% url 'mywatson:people' %}"
+	//     },
+	//     error: function(data) {
+	//         $('.modal-body-text').text('Something went wrong!')
+	// 		$('.modal-body').append('<span class="glyphicon glyphicon-exclamation-sign"></span>')
+	// 		$('.sk-cube-grid').remove()
+	//     }
+	// });
+</script>
+
+
+
+{% endblock %}
+{% endif %}

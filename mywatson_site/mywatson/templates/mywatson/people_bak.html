@@ -1,0 +1,51 @@
+{% extends 'mywatson/base.html' %}
+{% load static %}
+{% load thumbnail %}
+
+{% block title %}People{% endblock %}
+
+{% if user.is_authenticated %}
+{% block content %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'mywatson/base.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'mywatson/clusters.css' %}" />
+<script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
+
+
+<div class="div-cluster-controller">
+    <span class="slider-title">Number of clusters:</span>
+
+    <div class="div-slider-container">
+        <input type="range" class="slider" id="cluster-slider" name="cluster-slider"  data-thumbwidth="100">
+        <!--<output for="cluster-slider" onforminput="value = cluster-slider.valueAsNumber;"></output>-->
+        <span class="slider-value"></span>
+    </div>
+    <span class="silhouete-score">Cluster score:</span>
+    <button id="edit-mode-btn" class="edit-save-btn" type="button" onclick="toggle_edit_mode()">Edit mode is OFF</button>
+    <button id="save-btn" class="edit-save-btn" type="button" onclick="save_changes()">Save</button>
+    <span id="save-label"></span>
+</div>
+
+
+<div class="cluster-container">
+</div>
+
+<script src="{% static 'mywatson/clusters.js' %}"></script>
+
+<script>
+    var cluster_json = '{{ view.groups_json }}'
+    var clusters = get_clusters_from_json(cluster_json)
+    var n = '{{ view.n_clusters }}'
+    var MEDIA_FOLDER = '{{ view.media_url }}'
+
+
+    var cluster_indexes = init_slider(n);
+	display_clusters(cluster_indexes, n)
+
+
+</script>
+
+
+
+{% endblock %}
+{% endif %}

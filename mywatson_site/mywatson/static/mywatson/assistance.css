@@ -1,0 +1,83 @@
+/* ************************************************* */
+/* ********* 		ASSISTANCE PANEL 	   ********* */
+/* ************************************************* */
+
+.assistance-btn {
+	position: fixed;
+    bottom: 2vh;
+    right: 40px;
+    padding: 5px;
+    padding-bottom: 0px;
+	border: none;
+	/* border-radius: 50%;
+	background: #007EA7; */
+	z-index: 3;
+	cursor: pointer;
+}
+
+.assistance-btn:hover {
+	/* background: #00A8E8; */
+	transform: scale(1.2);
+}
+
+.assistance-btn > span {
+	font-size: 25px;
+}
+
+.assistance-btn > .watson-img {
+	height: auto;
+	width: 50px;
+}
+
+.assistance-panel {
+	display: none;
+    background-color: #c2e1f5;
+    /* border: 1px solid black; */
+    border-radius: 8px;
+    width: 40vw;
+    height: auto;
+    position: fixed;
+    bottom: 75px;
+    right: 10px;
+    border: 4px solid #80c4d8;
+    padding: 10px;
+    font-size: 16px;
+    line-height: 16px;
+    text-align: center;
+}
+
+
+.assistance-panel:before {
+	content: "";
+    position: absolute;
+    top: 100%;
+    right: 40px;
+    height: 20px;
+    width: 20px;
+    background: #c2e1f5;
+    box-sizing: border-box;
+    transform: rotate(45deg) translate(-50%);
+    border-bottom: inherit;
+    border-right: inherit;
+    box-shadow: inherit;
+}
+
+.assistance-panel > p {
+	text-align: left;
+    margin: 0 0 10px;
+    border-radius: 5px;
+    padding: 10px;
+    background: white;
+}
+
+
+.assistance-panel > .watson-img {
+	margin-bottom: 8px;
+    margin-right: 5px;
+    height: auto;
+    width: 35px;
+}
+
+.watson-img:hover {
+	box-shadow: none;
+}

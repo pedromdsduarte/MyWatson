@@ -1,0 +1,355 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+<!--
+
+Page    : index / MobApp
+Version : 1.0
+Author  : Colorlib
+URI     : https://colorlib.com
+
+ -->
+
+<head>
+    <title>MyWatson</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="MyWatson - A system for interactive access of personal records">
+
+    <!-- Font -->
+    <link rel="dns-prefetch" href="//fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css?family=Rubik:300,400,500" rel="stylesheet">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'core/css/bootstrap.min.css' %}">
+    <!-- Themify Icons -->
+    <link rel="stylesheet" href="{% static 'core/css/themify-icons.css' %}">
+    <!-- Owl carousel -->
+    <link rel="stylesheet" href="{% static 'core/css/owl.carousel.min.css' %}">
+    <!-- Main css -->
+    <link href="{% static 'core/css/style.css' %}" rel="stylesheet">
+    <link href="{% static 'core/navbar.css' %}" rel="stylesheet">
+
+	<!-- Forms css -->
+	<link rel="stylesheet" type="text/css" href="{% static 'core/css/forms.css' %}" />
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'core/images/mywatson_logo.png' %}"/>
+    <link rel="icon" type="image/x-icon" href="{% static 'core/images/mywatson_logo.png' %}"/>
+</head>
+
+<body data-spy="scroll" data-target="#navbar" data-offset="30">
+
+    <!-- Nav Menu -->
+
+    <div class="nav-menu fixed-top">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <nav class="navbar navbar-dark navbar-expand-lg">
+                        <a class="navbar-brand" href="{% url 'landing' %}">
+							<img src="{% static 'core/images/mywatson_transparent.png' %}" class="img-fluid" alt="logo">
+							<!-- My<span style="font-weight: 500;">Watson</span> -->
+							<!-- <img src="{% static 'core/images/logo.png' %}" class="img-fluid" alt="logo"> -->
+						</a> <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
+                        <div class="collapse navbar-collapse" id="navbar">
+                            <ul class="navbar-nav ml-auto">
+                                <li class="nav-item"> <a class="nav-link active" href="#home">HOME <span class="sr-only">(current)</span></a> </li>
+                                <li class="nav-item"> <a class="nav-link" href="#features">FEATURES</a> </li>
+                                <li class="nav-item"> <a class="nav-link" href="#steps">HOW TO</a> </li>
+                                <li class="nav-item"> <a class="nav-link" href="#functionality">INSIDE</a> </li>
+								<li class="nav-item"> <a id="register-ready" class="nav-link" href="#ready">REGISTER</a> </li>
+								<li class="nav-item"> <a class="nav-link" href="#about">ABOUT</a> </li>
+
+                                {% if not user.is_authenticated %}
+                                <li class="nav-item"><a id="login-ready" href="#ready" class="btn btn-outline-light my-3 my-sm-0 ml-lg-3">Login</a></li>
+                                {% else %}
+                                <li class="nav-item"><a href="{% url 'logout' %}" class="btn btn-outline-light my-3 my-sm-0 ml-lg-3">Logout</a></li>
+                                {% endif %}
+
+                            </ul>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <header class="bg-gradient" id="home">
+        <div class="container mt-5">
+            <h1>My<span style="font-weight: 500;">Watson</span></h1>
+            <p class="tagline">A system for interactive access of personal records. <br>Your assistant.</p>
+        </div>
+        <div class="img-holder mt-3">
+			<!-- <img src="{% static 'core/images/watson.png' %}" alt="phone" class="img-fluid"> -->
+			<img src="{% static 'core/images/mywatson_logo_transparent.png' %}" class="img-fluid">
+		</div>
+        {% if user.is_authenticated %}
+        <p class="greetings">Welcome back, {{ user.get_username }}!</p>
+        <a href="{% url 'mywatson:index' %}" class="btn btn-light" id="greetings-btn">Enter MyWatson</a>
+        {% endif %}
+    </header>
+
+    <div class="section light-bg" id="features">
+
+
+        <div class="container">
+
+            <div class="section-title">
+                <h3>Features</h3>
+            </div>
+
+
+            <div class="row">
+                <div class="col-12 col-lg-4">
+                    <div class="card features">
+                        <div class="card-body">
+                            <div class="media">
+                                <span class="ti-face-smile gradient-fill ti-3x mr-3"></span>
+                                <div class="media-body">
+                                    <h4 class="card-title">Simple</h4>
+                                    <p class="card-text">An easy to use interface. Just register and start using your personal assistant! </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-4">
+                    <div class="card features">
+                        <div class="card-body">
+                            <div class="media">
+                                <span class="ti-gallery gradient-fill ti-3x mr-3"></span>
+                                <div class="media-body">
+                                    <h4 class="card-title">Your own art gallery</h4>
+                                    <p class="card-text">Upload your photos easily and let MyWatson, powered by Google Cloud Vision&trade; Image Recognition and a Convolutional Neural Network, process and group them automatically according to their content! </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-4">
+                    <div class="card features">
+                        <div class="card-body">
+                            <div class="media">
+                                <span class="ti-user gradient-fill ti-3x mr-3"></span>
+                                <div class="media-body">
+                                    <h4 class="card-title">Personal</h4>
+                                    <p class="card-text">MyWatson will organize your personal records and learn about you!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+
+    </div>
+
+	<div class="section" id="steps">
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 d-flex align-items-center">
+                    <ul class="list-unstyled ui-steps">
+                        <li class="media">
+                            <div class="circle-icon mr-4">1</div>
+                            <div class="media-body">
+                                <h5>Create an Account</h5>
+                                <p>Creating an account is easy and takes 1 minute! Just <a id="click-here-signup" href="#ready">click here</a>!</p>
+                            </div>
+                        </li>
+                        <li class="media my-4">
+                            <div class="circle-icon mr-4">2</div>
+                            <div class="media-body">
+                                <h5>Upload your photos</h5>
+                                <p>Took a few photos during your trip? Upload them to MyWatson! </p>
+                            </div>
+                        </li>
+                        <li class="media">
+                            <div class="circle-icon mr-4">3</div>
+                            <div class="media-body">
+                                <h5>Forget tidying up</h5>
+                                <p>Don't worry about organizing and labeling your photos ever again. MyWatson will do it for you! </p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <img src="{% static 'core/images/vasco_da_gama_tower.jpg' %}" alt="iphone" class="img-fluid">
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="section light-bg" id="functionality">
+        <div class="container">
+            <div class="section-title">
+                <small>Inner workings</small>
+                <h3>INSIDE MYWATSON</h3>
+            </div>
+
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" data-toggle="tab" href="#interface">Interface</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#auto-label">Automatic Labeling</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#facial-recognition">Person Recognition</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane fade show active" id="interface">
+                    <div class="d-flex flex-column flex-lg-row">
+                        <img src="{% static 'core/images/easy_ui.png' %}" alt="graphic" class="img-fluid rounded align-self-start mr-lg-5 mb-5 mb-lg-0">
+                        <div>
+
+                            <h2>Keeping it simple.</h2>
+                            <p class="lead">Anytime, anywhere.</p>
+                            <p>A simple and intuitive user interface on the web ensures that you have the best experience possible when using MyWatson by alowing you to do the things you want, quick and easy, as well as guaranteeing that you can access it whenever and wherever you want.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="auto-label">
+                    <div class="d-flex flex-column flex-lg-row">
+                        <div>
+                            <h2>Upload once, forget manual labeling</h2>
+                            <p class="lead">Automatic Labeling powered by Google Cloud Vision&trade;</p>
+                            <p>The Google Cloud Vision&trade; API provides a powerful way to analize and understand the image through the power of Machine Learning, and easily classifies an image according to its contents, outputing labels.</p>
+                            <p>Besides objects, it can also identify faces, text, logos, colors and landmarks, as well as searching for related concepts in the web.</p>
+
+                        </div>
+                        <img src="{% static 'core/images/google_cloud.png' %}" alt="graphic" class="img-fluid rounded align-self-start mr-lg-5 mb-5 mb-lg-0">
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="facial-recognition">
+                    <div class="d-flex flex-column flex-lg-row">
+                        <img src="{% static 'core/images/face_recognition.png' %}" alt="graphic" class="img-fluid rounded align-self-start mr-lg-5 mb-5 mb-lg-0">
+                        <div>
+                            <h2>Easily find who matters</h2>
+                            <p class="lead">Power your gallery by identifying and grouping people </p>
+                            <p>By detecting people using the power of Face Detection by Google Cloud Vision&trade;, their facial features can then be extracted by a trained Convolutional Neural Network.
+                                People are then clustered together using a Clustering algorithm, which groups sets of features by similarity. </p>
+                            <p>You can then give names to a group of faces and the photos where thoses faces appear will be tagged accordingly! </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+    <div class="section bg-gradient" id="ready">
+        <div class="container">
+            <div class="call-to-action">
+
+                <div class="box-icon"><span class="ti-thumb-up gradient-fill ti-3x"></span></div>
+                <h2>Ready?</h2>
+                <div class="form-div" id="signup">
+                    <h5 class="form-header">Register</h2>
+                    <form method="post" class="signup-form">
+                        {% csrf_token %}
+                        <input type="hidden" name="form_type" value="signup" />
+                        {% for field in signup_form %}
+                        <p>
+                            {{ field }}
+                            {% for error in field.errors %}
+                                <p id="signup-error" class="error">* {{ error }}</p>
+                            {% endfor %}
+                        </p>
+                        {% endfor %}
+                        <button class="btn btn-light" type="submit">Sign up</button>
+                    </form>
+                </div>
+                <div class="form-div" id="login">
+                    <h5 class="form-header">Login</h2>
+                    <form method="post" class="login-form">
+
+                        {% csrf_token %}
+
+                        {{ login_form.username }}
+                        {{ login_form.password }}
+
+                        <input type="hidden" name="form_type" value="login" />
+
+                        {% if login_form.non_field_errors %}
+                            {% for error in login_form.non_field_errors %}
+                                <p id="login-error" class="error">* {{ error }}</p>
+                            {% endfor %}
+                        {% endif %}
+
+                        <button class="btn btn-light" type="submit">Login</button>
+                    </form>
+
+                </div>
+
+                <p class="message"><span class="norm-link form-toggle" id="has-acc">I already have an account!</span></p>
+
+
+
+            </div>
+
+
+
+        </div>
+    </div>
+
+	<div class="section pt-0 light-bg" id="about">
+	 <div class="container">
+		 <div class="section-title" style="padding-top: 6rem;">
+			 <h3>About</h3>
+		 </div>
+
+		 <div class="row pt-4">
+			 <div class="col-md-6">
+				<h4 class="mb-3">MyWatson</h4>
+				<p class="light-font mb-5">MyWatson is my Master's Thesis. It is a personal web assistant focused on photos, but I think an even more general assistant has potential to be used by a lot of people as a way to ease the burden on our daily lives. </p>
+				<p class="light-font mb-5">Inspired by IBM's Watson, the idea was that everyone could have their own personal Watson.</p>
+
+			 </div>
+			 <div class="col-md-6">
+				 <h4 class="mb-3">Me</h4>
+				 <p class="light-font mb-5">My name is Pedro Duarte and I am currently finishing my Bologna Master's Degree in Information Systems and Computer Engineering at Instituto Superior Técnico @ Alameda, Lisbon. My advisor is Prof. Arlindo Oliveira.</p>
+
+
+			 </div>
+		 </div>
+	 </div>
+    </div>
+
+
+    <footer class="my-5 text-center">
+        <!-- Copyright removal is not prohibited! -->
+        <p class="mb-2"><small>COPYRIGHT © 2017. ALL RIGHTS RESERVED. MOBAPP TEMPLATE BY <a href="https://colorlib.com">COLORLIB</a></small></p>
+
+		<p><small>Logo by <a href="https://www.behance.net/andreleitao" class="m-2">André Leitão</a></small></p>
+        <small>
+            <a href="#" class="m-2">PRESS</a>
+            <a href="#" class="m-2">TERMS</a>
+            <a href="#" class="m-2">PRIVACY</a>
+        </small>
+    </footer>
+
+    <!-- jQuery and Bootstrap -->
+    <script src="{% static 'core/js/jquery-3.2.1.min.js' %}"></script>
+    <script src="{% static 'core/js/bootstrap.bundle.min.js' %}"></script>
+    <!-- Plugins JS -->
+    <script src="{% static 'core/js/owl.carousel.min.js' %}"></script>
+    <!-- Custom JS -->
+    <script src="{% static 'core/js/script.js' %}"></script>
+
+
+</body>
+
+</html>

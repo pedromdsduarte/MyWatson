@@ -1,0 +1,29 @@
+{% extends 'mywatson/base.html' %} {% load static %} {% load thumbnail %}
+
+
+
+{% block content %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'mywatson/base.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'mywatson/gallery_view.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'mywatson/results.css' %}" />
+
+<ul class="gallery">
+  {% for photo in results %}
+    {% thumbnail photo.image "200x200" crop="center" as im %}
+
+    <a href="{% url 'mywatson:photo' photo.id %}">
+      <img class="img-thumbnail" src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+    </a>
+    {% endthumbnail %}
+
+    {% empty %}
+      Your search for "{{ view.previous_query }}" did not return any results.
+  {% endfor %}
+</ul>
+
+<script>
+	$('#search-bar > .input-group > .form-control').attr("placeholder", "{{ view.previous_query }}")
+</script>
+
+{% endblock %}

@@ -1,0 +1,3 @@
+input.searchfield {
+    onfocus: "this.placeholder = ''"
+}

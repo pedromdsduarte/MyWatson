@@ -1,0 +1,118 @@
+img {
+    height:50%;
+    margin: auto;
+    display: block;
+    float: left;
+    border: 1.5px solid black;
+}
+
+#remove-btn {
+  float: left;
+  display: block;
+  clear: left;
+  margin-top: 10px;
+}
+
+div.tags {
+  border: 1.5px solid black;
+  width: 250px;
+  /* float: right; */
+  /* position: relative; */
+  /* right: 200px; */
+  /* top: 0px; */
+  padding: 5px;
+  display: inline-block;
+  margin: 50px;
+}
+
+div.image {
+    float: left;
+    border:3px solid black;
+}
+
+div.nav-btns {
+  width: 1028px;
+  clear: left;
+  float: left;
+}
+
+a.btn.btn-default {
+  clear: both;
+  display: inline-block;
+}
+
+.button {
+    background-color: black; /* Green */
+    border: solid grey 1px;
+    color: white;
+    padding: 2px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+
+.button_remove {
+    background-color: red; /* Green */
+    border: solid black 1px;
+    color: white;
+    padding: 2px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline;
+    font-size: 16px;
+    float:left;
+}
+
+.tag_remove_line .tags #removetags{
+    width: auto;
+    float: left;
+}
+.tag_remove_line p {
+    margin: 0;
+    float: left;
+    margin-top: 4px;
+    margin-left: 5px;
+}
+.tags strong{
+  width: 100%;
+  display: block;
+  margin-bottom: 10px;
+}
+.tag_remove_line{
+  width: 100%;
+  float: left;
+  margin-bottom: 10px;
+}
+
+.tag_remove_line form {
+    margin: 0;
+}
+
+.tag_remove_line.template{
+  display: none;
+}
+
+.tag_remove_line .tag_remove_line {
+    margin-top: 5px;
+    margin-left: 10px;
+    margin-bottom: 0px;
+}
+
+canvas {
+    z-index: 1;
+    width: 1024px;
+    height: 576px;
+    border: 2px solid black;
+}
+
+.tag_p {
+    cursor:pointer;
+}
+
+.subtag_p {
+    width: 100%;
+    margin: 0;
+    margin-left: 15px;
+    margin-top: 4px;
+}
